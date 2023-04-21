@@ -1,52 +1,33 @@
 import java.util.*;
-
 public class PhoneBook {
+    public static Map<String, String> mapPhoneBook = new TreeMap<>();
     public static void main(String[] args) {
-        Scanner scanner = new Scanner((System.in));
-        
+        System.out.println("Введите номер,имя или команду:");
+        while (true){
+            Scanner scanner = new Scanner(System.in);
+            String text = scanner.nextLine();
+
+            if (text.toLowerCase().startsWith("list")) {
+                System.out.println(getAllContacts());
+            }
+            addContactByPhone(text);
+            addContactByName(text);
+        }
     }
-    Map<String, String> mapPhoneBook = new TreeMap<>();
-
-    public void addContact(String phone, String name) {
-
-        if (phone.matches("[\\d]{11}") && name.matches("[А-Яа-я]+")) {
+    public static void addContactByPhone(String phone) {
+        Scanner scanner = new Scanner(System.in);
+        if (phone.matches("[\\d]{11}")) {
             if (mapPhoneBook.containsKey(phone)) {
-                mapPhoneBook.replace(phone, mapPhoneBook.get(phone), name);
+                System.out.println(phone+" "+mapPhoneBook.get(phone));
             } else {
+                System.out.println("Такого номера нет в телефонной книге.Введите имя абонента для номера "+phone);
+                String name = scanner.nextLine();
                 mapPhoneBook.put(phone, name);
+                System.out.println("Контакт сохранен");
             }
         }
     }
-
-
-    public String getContactByPhone(String phone) {
-        if (mapPhoneBook.containsKey(phone)) {
-            return mapPhoneBook.get(phone) + " - " + phone;
-        } else {
-            return "";
-        }
-    }
-
-
-    public Set<String> getContactByName(String name) {
-
-        Set<String> setPhoneBook = new TreeSet<>();
-        String namePlusTel = "";
-        if (mapPhoneBook.containsValue(name)) {
-            namePlusTel = namePlusTel.concat(name) + " - ";
-            for (String tel : mapPhoneBook.keySet()) {
-                if (mapPhoneBook.get(tel).equals(name)) {
-                    namePlusTel = namePlusTel.concat(tel) + ", ";
-                }
-            }
-            setPhoneBook.add(namePlusTel.substring(0, namePlusTel.length() - 2));
-            return setPhoneBook;
-        } else {
-            return new TreeSet<>();
-        }
-    }
-
-    public Set<String> getAllContacts() {
+    public static Set<String> getAllContacts() {
 
         Set<String> setPhoneBook = new TreeSet<>();
 
@@ -55,5 +36,22 @@ public class PhoneBook {
         }
         return setPhoneBook;
     }
+    public static void addContactByName(String name) {
+        Scanner scanner = new Scanner(System.in);
+        if (name.matches("[А-Яа-я]+")) {
+            if (mapPhoneBook.containsValue(name)) {
+                for (String tel : mapPhoneBook.keySet()) {
+                    if (mapPhoneBook.get(tel).equals(name)) {
+                        System.out.println(tel+" "+name);
+                    }
+                }
+            } else {
+                System.out.println("Такого имени в телефонной книге нет.");
+                System.out.println("Введите номер телефона для абонента "+name+":");
+                String phone = scanner.nextLine();
+                mapPhoneBook.put(phone, name);
+                System.out.println("Контакт сохранен");
+            }
+        }
+    }
 }
-
