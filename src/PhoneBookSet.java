@@ -19,6 +19,9 @@ public class PhoneBookSet {
                 removeContactByPhone(text.split(" ",2)[1]);
             } else if(text.toLowerCase().matches("удалить "+NAME_REGEX)){
                 removeContactByName(text.split(" ",2)[1]);
+            } else if (text.toLowerCase().matches("изменить "+NAME_REGEX+" "+NAME_REGEX)){
+                String[] s = text.split(" ", 3);
+                editContact(s[1],s[2]);
             } else {
                 System.out.println("Неверный формат ввода");
                 return;
@@ -82,8 +85,20 @@ public class PhoneBookSet {
             System.out.println("Неправильно введен номер");
         }
     }
-
-
+    public static void editContact(String oldName,String newName) {
+        if (!mapPhoneBook.containsKey(oldName)) {
+            System.out.println("Изменяемый контакт не найден");
+            return;
+        }
+        if(mapPhoneBook.containsKey(newName)){
+            System.out.println("Такое имя уже существует у другого контакта");
+            return;
+        }
+        TreeSet<String> phons = mapPhoneBook.get(oldName);
+        mapPhoneBook.remove(oldName);
+        mapPhoneBook.put(newName,phons);
+        System.out.println("Контакт изменен");
+    }
     public static void printAllContacts() {
         if (mapPhoneBook.isEmpty()) {
             System.out.println("Книга контактов пуста");
