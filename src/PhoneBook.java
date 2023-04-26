@@ -1,4 +1,4 @@
-import java.util.*;
+/*import java.util.*;
 public class PhoneBook {
     public static Map<String, String> mapPhoneBook = new TreeMap<>();
     private static final String NAME_REGEX = "[А-Яа-я]+";
@@ -71,4 +71,4 @@ public class PhoneBook {
         }
         mapPhoneBook.forEach((key,value)-> System.out.println(value+" - "+key));
     }
-}
+}*/
